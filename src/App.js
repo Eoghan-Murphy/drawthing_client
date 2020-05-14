@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import TestComponent from './TestComponent'
+import TestPage from './TestPage'
 
 function App() {
   return (
-    <TestComponent></TestComponent>
+    <TestPage></TestPage>
   );
 }
 
