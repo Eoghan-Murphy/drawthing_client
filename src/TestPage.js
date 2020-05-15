@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, Row} from 'reactstrap'
-import Canvas from './Canvas'
+import PostCreator from './PostCreator'
 
 class TestPage extends React.Component {
 
@@ -8,7 +8,7 @@ class TestPage extends React.Component {
         return (
             <Container>
                 <Row>
-                    <Canvas/>
+                    <PostCreator/>
                 </Row>
             </Container>
         )

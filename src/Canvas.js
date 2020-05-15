@@ -16,11 +16,13 @@ class Canvas extends React.Component {
         this.dot = this.dot.bind(this);
         this.setCanvasMousePosition = this.setCanvasMousePosition.bind(this);
         this.handleResize = this.handleResize.bind(this)
-        this.saveImage = this.saveImage.bind(this)
     }
 
     componentDidMount(){
         this.canvas = this.canvasRef.current;
+        if(this.props.setCanvasReference){
+            this.props.setCanvasReference(this.canvasRef);
+        }
         this.canvasRect = this.canvas.getBoundingClientRect()
         this.ctx = this.canvas.getContext("2d")
         window.addEventListener('resize', this.handleResize)
@@ -41,7 +43,6 @@ class Canvas extends React.Component {
     setCanvasMousePosition(e){
         this.setState({prevCanvasMousePos: this.state.currCanvasMousePos})
         let tempMouse = {};
-        console.log(this.state);
         tempMouse.x = e.clientX - this.canvasRect.left;
         tempMouse.y = e.clientY - this.canvasRect.top;
         this.setState({currCanvasMousePos: tempMouse})
