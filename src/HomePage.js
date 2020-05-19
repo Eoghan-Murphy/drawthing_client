@@ -2,7 +2,7 @@ import React from 'react';
 import {Container, Row} from 'reactstrap'
 import PostCreator from './PostCreator'
 
-class TestPage extends React.Component {
+class HomePage extends React.Component {
 
     render(){
         return (
@@ -15,4 +15,4 @@ class TestPage extends React.Component {
     }
 }
 
-export default TestPage;
+export default HomePage;

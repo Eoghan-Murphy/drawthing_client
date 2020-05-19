@@ -1,6 +1,7 @@
 import React from 'react';
 import Canvas from './Canvas';
 import {Button} from 'reactstrap';
+import Post from './models/Post';
 
 class PostCreator extends React.Component {
 
@@ -19,7 +20,8 @@ class PostCreator extends React.Component {
 
     submitPost(){
         if(this.state.canvasRef){
-            //pass to post submit function
+            const post = new Post('test_user', 'test_image')
+            post.submit()
         }
     }
 
