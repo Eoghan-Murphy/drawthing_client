@@ -1,10 +1,12 @@
 import React from 'react';
 import {Container, Row} from 'reactstrap'
-import PostCreator from './PostCreator'
+import PostCreator from '../../Components/PostCreator'
+import {withAuthentication} from '../../Session'
 
 class HomePage extends React.Component {
 
     render(){
+        console.log(this.props)
         return (
             <Container>
                 <Row>
@@ -15,4 +17,4 @@ class HomePage extends React.Component {
     }
 }
 
-export default HomePage;
+export default withAuthentication(HomePage);

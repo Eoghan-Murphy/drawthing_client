@@ -1,7 +1,7 @@
 import React from 'react';
 import Canvas from './Canvas';
 import {Button} from 'reactstrap';
-import Post from './models/Post';
+import Post from '../models/Post';
 
 class PostCreator extends React.Component {
 
