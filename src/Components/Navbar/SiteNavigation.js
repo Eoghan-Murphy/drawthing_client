@@ -10,6 +10,7 @@ import {
 import * as ROUTES from '../../routes'
 import {withAuthentication} from '../../Session'
 import SmallUserDetails from './SmallUserDetails'
+import {compose} from 'redux'
 
 import {Link} from 'react-router-dom'
 
@@ -40,4 +41,4 @@ class SiteNavigation extends React.Component {
         )
     }
 }
-export default withAuthentication(SiteNavigation)
+export default compose(withAuthentication)(SiteNavigation)

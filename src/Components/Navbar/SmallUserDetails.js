@@ -2,6 +2,7 @@ import React from 'react';
 import {withAuthentication} from '../../Session';
 import {withFirebase} from '../../Firebase';
 import SignOutButton from '../SignOutButton';
+import {compose} from 'redux'
 
 class SmallUserDetails extends React.Component {
     render(){
@@ -19,4 +20,6 @@ class SmallUserDetails extends React.Component {
 
 }
 
-export default withAuthentication(withFirebase(SmallUserDetails));
+export default compose(withAuthentication,
+                        withFirebase)
+                        (SmallUserDetails)

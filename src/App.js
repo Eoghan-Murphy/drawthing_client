@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import{BrowserRouter, Switch, Route} from 'react-router-dom';
 import Navbar from './Components/Navbar';
+import {compose} from 'redux';
+import {withFirestoreRedux} from './Firebase'
 
 import HomePage from './Pages/HomePage';
 import SignInPage from './Pages/AccountManagement/SignInPage'
@@ -14,23 +16,26 @@ import {baseAuthentication} from './Session'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path={ROUTES.HOME}>
-          <Navbar/>
-          <HomePage/>
-        </Route>
-        <Route exact path={ROUTES.SIGN_IN}>
-          <Navbar hideRegLinks={true}/>
-          <SignInPage/>
-        </Route>
-        <Route exact path={ROUTES.SIGN_UP}>
-          <Navbar hideRegLinks={true}/>
-          <RegistrationPage/>
-        </Route>
-      </Switch>
-    </BrowserRouter>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path={ROUTES.HOME}>
+              <Navbar/>
+              <HomePage/>
+            </Route>
+            <Route exact path={ROUTES.SIGN_IN}>
+              <Navbar hideRegLinks={true}/>
+              <SignInPage/>
+            </Route>
+            <Route exact path={ROUTES.SIGN_UP}>
+              <Navbar hideRegLinks={true}/>
+              <RegistrationPage/>
+            </Route>
+          </Switch>
+        </BrowserRouter>
   );
 }
 
-export default baseAuthentication(App);
+export default compose(
+  baseAuthentication,
+  withFirestoreRedux,
+)(App);

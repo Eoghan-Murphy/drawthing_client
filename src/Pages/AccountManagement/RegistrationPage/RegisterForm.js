@@ -2,7 +2,8 @@ import React from 'react';
 import {withFirebase} from '../../../Firebase';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
 import {withRouter} from 'react-router-dom';
-import * as ROUTES from '../../../routes'
+import * as ROUTES from '../../../routes';
+import {compose} from 'redux';
 
 const INITIAL_STATE = {
     email: '',
@@ -30,7 +31,8 @@ class RegisterFormBase extends React.Component {
     handleFormSubmit(event){
 
         this.props.firebase.doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then(authUser => {
+        .then(() => {
+
             this.setState({...INITIAL_STATE});
             this.props.history.push(ROUTES.HOME);
         })
@@ -79,6 +81,6 @@ class RegisterFormBase extends React.Component {
     }
 }
 
-const RegisterForm = withRouter(withFirebase(RegisterFormBase))
+const RegisterForm = compose(withRouter, withFirebase)(RegisterFormBase);
 
 export default RegisterForm;

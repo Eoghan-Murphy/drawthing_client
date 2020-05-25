@@ -2,6 +2,7 @@ import React from 'react'
 
 import AuthUserContext from './context'
 import {withFirebase} from '../Firebase'
+import {compose} from 'redux'
 
 const baseAuthentication = Component => {
     class baseAuthentication extends React.Component {
@@ -34,7 +35,7 @@ const baseAuthentication = Component => {
         }
     }
 
-    return withFirebase(baseAuthentication)
+    return compose(withFirebase)(baseAuthentication)
 }
 
 export default baseAuthentication

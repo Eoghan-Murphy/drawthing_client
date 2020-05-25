@@ -1,12 +1,14 @@
 import React from 'react';
 import {Container, Row} from 'reactstrap'
 import PostCreator from '../../Components/PostCreator'
-import {withAuthentication} from '../../Session'
+import {withAuthentication, withAuthorization} from '../../Session'
+import {compose} from 'redux'
+import {connect} from 'react-redux'
+import {firestoreConnect} from 'react-redux-firebase'
 
-class HomePage extends React.Component {
+class HomePageBase extends React.Component {
 
     render(){
-        console.log(this.props)
         return (
             <Container>
                 <Row>
@@ -17,4 +19,15 @@ class HomePage extends React.Component {
     }
 }
 
-export default withAuthentication(HomePage);
+const condition = authUser => !!authUser;
+
+const HomePage = compose(
+    firestoreConnect(() => ['users']),
+    connect((state, props) => ({
+        users: state.firestore.ordered.users
+      })),
+    withAuthentication,
+    withAuthorization(condition),
+)(HomePageBase);
+
+export default HomePage;

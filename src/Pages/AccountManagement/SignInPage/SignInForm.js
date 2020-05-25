@@ -2,7 +2,8 @@ import React from 'react';
 import {withFirebase} from '../../../Firebase';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
 import {withRouter} from 'react-router-dom';
-import * as ROUTES from '../../../routes'
+import * as ROUTES from '../../../routes';
+import {compose} from 'redux'
 
 const INITIAL_STATE = {
     email: '',
@@ -64,6 +65,6 @@ class SignInFormBase extends React.Component {
     }
 }
 
-const SignInForm = withRouter(withFirebase(SignInFormBase))
+const SignInForm = compose(withRouter, withFirebase)(SignInFormBase)
 
 export default SignInForm;
