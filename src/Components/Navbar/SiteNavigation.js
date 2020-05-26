@@ -25,13 +25,12 @@ const REGISTRATION_LINKS = <Nav className="ml-auto">
 
 class SiteNavigation extends React.Component {
     render(){
-        const {hideRegLinks} = this.props
         return(
             <div className="bg-success">
                 <Container>
                 <Navbar className="navbar-light" dark>
                     <Link to={ROUTES.HOME}><NavbarBrand >drawThing</NavbarBrand></Link>
-                    {!hideRegLinks && !this.props.authUser &&
+                    {!this.props.authUser &&
                     REGISTRATION_LINKS
                     }
                 <SmallUserDetails light/>

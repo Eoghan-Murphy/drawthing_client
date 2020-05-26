@@ -8,6 +8,7 @@ import {withFirestoreRedux} from './Firebase'
 import HomePage from './Pages/HomePage';
 import SignInPage from './Pages/AccountManagement/SignInPage'
 import RegistrationPage from './Pages/AccountManagement/RegistrationPage';
+import ChangeProfilePicturePage from './Pages/AccountManagement/ChangeProfilePicturePage'
 
 import * as ROUTES from './routes';
 
@@ -23,13 +24,18 @@ function App() {
               <HomePage/>
             </Route>
             <Route exact path={ROUTES.SIGN_IN}>
-              <Navbar hideRegLinks={true}/>
+              <Navbar/>
               <SignInPage/>
             </Route>
             <Route exact path={ROUTES.SIGN_UP}>
-              <Navbar hideRegLinks={true}/>
+              <Navbar/>
               <RegistrationPage/>
             </Route>
+            <Route exact path={ROUTES.PROFILE_SETTINGS}>
+              <Navbar/>
+              <ChangeProfilePicturePage/>
+            </Route>
+            
           </Switch>
         </BrowserRouter>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from 'reactstrap';
 
 
 class Canvas extends React.Component {
@@ -30,9 +31,12 @@ class Canvas extends React.Component {
     }
 
     render () {
-        const {height, width} = this.props
+        const {height, width, onSubmit, SubmitText} = this.props
         return(
+                <div>
                 <canvas width={width ? width : 640} height={height ? height : 360} onMouseDown={this.dot} ref={this.canvasRef} className="border"/>
+                {onSubmit && <Button onClick={() => this.canvasRef.current.toBlob(onSubmit)}>{SubmitText ? SubmitText : 'Submit'}</Button>}
+                </div>
         )
     }
 

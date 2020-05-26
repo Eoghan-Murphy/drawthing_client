@@ -31,10 +31,12 @@ class RegisterFormBase extends React.Component {
     handleFormSubmit(event){
 
         this.props.firebase.doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((authUser) => {
+            this.props.firebase.doSetFieldUser(authUser.user.uid, 'displayName' , this.state.displayName)
+        })
         .then(() => {
-
             this.setState({...INITIAL_STATE});
-            this.props.history.push(ROUTES.HOME);
+            this.props.history.push(ROUTES.PROFILE_SETTINGS);
         })
         .catch(error => {
             this.setState({error});
