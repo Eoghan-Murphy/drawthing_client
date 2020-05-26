@@ -30,6 +30,10 @@ class Canvas extends React.Component {
         window.addEventListener('mousemove', this.setCanvasMousePosition)
     }
 
+    componentDidUpdate(){
+        this.handleResize()
+    }
+
     render () {
         const {height, width, onSubmit, SubmitText} = this.props
         return(

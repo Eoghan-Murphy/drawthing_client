@@ -17,6 +17,14 @@ class ChangeProfilePicturePage extends React.Component {
 
     onSubmit(imageBlob){
         this.props.firebase.doSetProfilePic(this.props.authUser.uid, imageBlob)
+        .then( () => {
+            this.props.firebase.doGetProfilePic(this.props.authUser.uid)
+            .then( (url) => {
+                this.props.firebase.doSetFieldUser(this.props.authUser.uid, 'ppURL', url)
+            }
+            )
+        }
+        )
         .catch((error) => {this.setState({ppError: error})})
     }
 

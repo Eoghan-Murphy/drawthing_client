@@ -1,12 +1,11 @@
 import React from 'react';
-import {Button} from 'reactstrap';
 import {withFirebase} from '../Firebase';
 import {compose} from 'redux';
 
 const SignOutButton = ({ firebase }) => (
-    <Button onClick={firebase.doSignOut}>
+    <span onClick={firebase.doSignOut}>
       Sign Out
-    </Button>
+    </span>
 );
 
 export default compose(withFirebase)(SignOutButton);

@@ -1,42 +1,28 @@
 import React from 'react';
 import {withAuthentication} from '../../Session';
 import {withFirebase} from '../../Firebase';
-import SignOutButton from '../SignOutButton';
-import {compose} from 'redux'
+import {compose} from 'redux';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import ProfileImage from '../ProfileImage';
+import {Row, Col} from 'reactstrap'
+import Spinner from '../Spinner'
 
 class SmallUserDetails extends React.Component {
-    constructor(props){
-        super(props)
-
-        this.state = {
-            pp: null
-        }
-
-        this.setProfilePic = this.setProfilePic.bind(this)
-    }
-
-    setProfilePic(){
-        this.props.firebase.doGetProfilePic(this.props.authUser.uid)
-        .then((imgURL) => {
-            this.setState({pp: imgURL})
-        })
-    }
 
     render(){
-
-        if(!this.state.pp && this.props.authUser){
-            this.setProfilePic()
-        }
-
-        console.log(this.props)
         return(
             <div>
-            {this.props.authUser &&
-            <div className={this.props.light && 'text-light'}>
-                <img src={this.state.pp}/>
-                {this.props.authUser.email}
-                <SignOutButton/>
-            </div>
+            {this.props.user ?
+            <Row className={"align-items-center" + (this.props.light && ' text-light')}>
+                <Col>
+                    <ProfileImage imageURL={this.props.user.ppURL}/>
+                </Col>
+                <Col>
+                    {this.props.user.displayName}
+                </Col>
+            </Row>
+            : <Spinner light />
             }
             </div>
         );
@@ -44,5 +30,14 @@ class SmallUserDetails extends React.Component {
 
 }
 
-export default compose(withFirebase,withAuthentication)
+export default compose(
+    withFirebase,
+    withAuthentication,
+    firestoreConnect((props)=> [
+        { collection: 'users', doc: props.authUser && props.authUser.uid}
+    ]),
+    connect(({firestore: {data}}, props) => ({
+         user: data.users && props.authUser && data.users[props.authUser.uid]
+    }))
+    )
                         (SmallUserDetails)
