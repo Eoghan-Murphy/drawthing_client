@@ -48,8 +48,28 @@ class Firebase {
         return storageRef.getDownloadURL()
     }
 
+    //Post
+
+    doUploadPost = (uid, post) => {
+        this.db.collection("posts").add(JSON.parse(JSON.stringify(post)))
+        .then((data) => {
+            let referenceToBeAdded = {};
+            referenceToBeAdded[Date.now()] = data.id;
+            return this.db.collection("userPosts").doc(uid).set(referenceToBeAdded, {merge: true});
+        })
+    }
 
 
+    // cloud Storage
+
+    doUploadFileReturnURL = (file, path = '') => {
+        var storageRef = this.storage.ref().child(path);
+        return storageRef.put(file)
+        .then( () => {
+            return storageRef.getDownloadURL();
+        }
+        )
+    }
 
 }
 

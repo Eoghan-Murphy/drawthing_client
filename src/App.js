@@ -4,6 +4,8 @@ import{BrowserRouter, Switch, Route} from 'react-router-dom';
 import Navbar from './Components/Navbar';
 import {compose} from 'redux';
 import {withFirestoreRedux} from './Firebase'
+import {connect} from 'react-redux'
+import {firestoreConnect} from 'react-redux-firebase'
 
 import HomePage from './Pages/HomePage';
 import SignInPage from './Pages/AccountManagement/SignInPage'
@@ -18,21 +20,18 @@ import {baseAuthentication} from './Session'
 function App() {
   return (
         <BrowserRouter>
+          <Navbar/>
           <Switch>
             <Route exact path={ROUTES.HOME}>
-              <Navbar/>
               <HomePage/>
             </Route>
             <Route exact path={ROUTES.SIGN_IN}>
-              <Navbar/>
               <SignInPage/>
             </Route>
             <Route exact path={ROUTES.SIGN_UP}>
-              <Navbar/>
               <RegistrationPage/>
             </Route>
             <Route exact path={ROUTES.PROFILE_SETTINGS}>
-              <Navbar/>
               <ChangeProfilePicturePage/>
             </Route>
             
@@ -43,5 +42,5 @@ function App() {
 
 export default compose(
   baseAuthentication,
-  withFirestoreRedux,
+  withFirestoreRedux
 )(App);

@@ -2,37 +2,41 @@ import React from 'react';
 import Canvas from './Canvas';
 import {Button} from 'reactstrap';
 import Post from '../models/Post';
+import {compose} from 'redux';
+import {withAuthentication} from '../Session'
+import {withFirebase} from '../Firebase'
+
 
 class PostCreator extends React.Component {
 
     constructor(props){
         super(props)
         this.state = {
-            canvasRef: null
+            postError: null
         }
-        this.setCanvasReference = this.setCanvasReference.bind(this);
         this.submitPost = this.submitPost.bind(this)
     }
 
-    setCanvasReference(canvasRef) {
-        this.setState({canvasRef: canvasRef.current});
-    }
-
-    submitPost(){
-        if(this.state.canvasRef){
-            const post = new Post('test_user', 'test_image')
-            post.submit()
-        }
+    submitPost(imageData){
+        let imageTitle = this.props.authUser.uid.toString() + Date.now().toString()
+        this.props.firebase.doUploadFileReturnURL(imageData, `/posts/${imageTitle}`)
+        .then((downloadURL) => {
+            let post = new Post(this.props.authUser.uid, downloadURL)
+            this.props.firebase.doUploadPost(this.props.authUser.uid, post)
+        })
+        .catch((error) => {
+            this.setState({postError: error})
+        })
     }
 
     render(){
         return (
             <div>
-                <Canvas setCanvasReference = {this.setCanvasReference}></Canvas>
-                <Button onClick = {this.submitPost}>Submit Post</Button>
+                <Canvas onSubmit={this.submitPost}></Canvas>
+                {this.state.postError && this.state.postError}
             </div>
         )
     }
 }
 
-export default PostCreator;
+export default compose(withAuthentication, withFirebase)(PostCreator);

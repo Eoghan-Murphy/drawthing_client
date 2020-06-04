@@ -7,6 +7,9 @@ import {
     NavItem,
     NavLink,
   } from 'reactstrap';
+import {firestoreConnect} from 'react-redux-firebase'
+import {connect} from 'react-redux'
+
 import * as ROUTES from '../../routes'
 import {withAuthentication} from '../../Session'
 import SmallUserDetails from './SmallUserDetails'
@@ -55,4 +58,13 @@ class SiteNavigation extends React.Component {
         )
     }
 }
-export default compose(withAuthentication)(SiteNavigation)
+export default compose(withAuthentication,
+                        connect((state, props) => ({
+                            user: state.firestore.ordered.currUser && state.firestore.ordered.currUser[0],
+                        })),
+                        firestoreConnect((props) => {
+                            let firestoreQuery = []
+                            props.user && firestoreQuery.push({collection: 'users', where: [props.firebase.firestore.FieldPath.documentId(),'in', Object.keys(props.user.following)], storeAs: 'following'});
+                            props.authUser && firestoreQuery.push({collection: 'users', doc: props.authUser.uid, storeAs: 'currUser'})
+                            return firestoreQuery
+                        }))(SiteNavigation)

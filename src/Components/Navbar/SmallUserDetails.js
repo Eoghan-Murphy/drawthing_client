@@ -3,7 +3,6 @@ import {withAuthentication} from '../../Session';
 import {withFirebase} from '../../Firebase';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
 import ProfileImage from '../ProfileImage';
 import {Row, Col} from 'reactstrap'
 import Spinner from '../Spinner'
@@ -13,16 +12,15 @@ class SmallUserDetails extends React.Component {
     render(){
         return(
             <div>
-            {this.props.user ?
+            {this.props.authUser && this.props.currUser &&
             <Row className={"align-items-center" + (this.props.light && ' text-light')}>
                 <Col>
-                    <ProfileImage imageURL={this.props.user.ppURL}/>
+                    <ProfileImage imageURL={this.props.currUser.ppURL}/>
                 </Col>
                 <Col>
-                    {this.props.user.displayName}
+                    {this.props.currUser.displayName}
                 </Col>
             </Row>
-            : <Spinner light />
             }
             </div>
         );
@@ -33,11 +31,8 @@ class SmallUserDetails extends React.Component {
 export default compose(
     withFirebase,
     withAuthentication,
-    firestoreConnect((props)=> [
-        { collection: 'users', doc: props.authUser && props.authUser.uid}
-    ]),
-    connect(({firestore: {data}}, props) => ({
-         user: data.users && props.authUser && data.users[props.authUser.uid]
+    connect((state, props) => ({
+         currUser: state.firestore.ordered.currUser ? state.firestore.ordered.currUser[0] : null
     }))
     )
                         (SmallUserDetails)
